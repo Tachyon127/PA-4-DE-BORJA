@@ -26,7 +26,6 @@ Mindy
 B. Visualization using Matplotlib
 ```
 import matplotlib.pyplot as plt
-
 ```
 Utilizing the initial dataframe board2, the average of four subjects (Electronics, Math, GEAS, and Communication) are recalculated and plotted. The syntax ```mean(axis=1)``` indicates that the mean is computed row-wise to display a single score when compared with other groups or categories (Track, Hometown, Gender)
 ```
