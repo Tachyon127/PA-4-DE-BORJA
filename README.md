@@ -1,18 +1,21 @@
 # PA-4-DE-BORJA
 
-Problem "**ECE BOARD EXAM**"
+**ECE BOARD EXAM**
 
-A.
-1. A .csv file named board2 is loaded into a data frame using pandas ```board2.csv```
-2. The dataset is filtered to display:
-   - Students from Luzon taking Instrumentation with electronics > 70 and,
-   - Female students from Mindanao with an average>=55 (created by taking the mean of Math, Electronics, GEAS, and Communication.)
-
+A. This Python script utilizes data wrangling and visualization techniques.
+```
+import pandas as pd ###imports Panda library
+df = pd.read_csv('board2.csv') ###Loads the board2.csv file
+df
+```
+A variable Instru is utilized to have a dataframe where values such as Track is set to 'Instrumentation', Hometown is set to 'Luzon', and the score in Electronics is greater than 70. The aforementioned values are displayed under columns titled "NAME, GEAS, ELECTRONICS".
 ```
 Instru = df[(df['Hometown']=='Luzon') & (df['Track']=='Instrumentation') & (df['Electronics']>70)][['Name', 'GEAS','Electronics']]
 Instru
-
-df['Average'] = df[['Math', 'Electronics', 'GEAS', 'Communication']].mean(axis=1)
+```
+A variable named Mindy utilizes a dataframe with values where the hometown is constant as Mindanao, and the gender is set to female, and the average score greater than or equal to 55. The previous values are under the columns "Name, Track, Electronics, Average"
+```
+f['Average'] = df[['Math', 'Electronics', 'GEAS', 'Communication']].mean(axis=1)
 
 Mindy = df[(df['Hometown']=='Mindanao') & 
         (df['Gender']=='Female') &
@@ -20,19 +23,49 @@ Mindy = df[(df['Hometown']=='Mindanao') &
 Mindy
 ```
 
-B.
-- **Visualization using Matplotlib**
-
-Using the dataframe board2 in part A, the average of the four subjects are recalculated and plotted; 
-1. ```import matplotlib.pyplot as plt``` is used to import the plotting library.
-2. Four subjects are selected to compute the average of Electronics, Math, GEAS, and Communication. ```df['Average'] = df[subs].mean(axis=1)``` computes the mean by row to display a single score when compared with other groups
-3. This process is repeated with other categories such as the gender, hometown, and track.
+B. Visualization using Matplotlib
 ```
+import matplotlib.pyplot as plt
+
+```
+Utilizing the initial dataframe board2, the average of four subjects (Electronics, Math, GEAS, and Communication) are recalculated and plotted. The syntax ```mean(axis=1)``` indicates that the mean is computed row-wise to display a single score when compared with other groups or categories (Track, Hometown, Gender)
+```
+subs = ['Electronics', 'Math', 'GEAS', 'Communication'] df['Average'] = df[subs].mean(axis=1)
 gender_avg = df.groupby('Gender')['Average'].mean() 
 hometown_avg = df.groupby('Hometown')['Average'].mean()
 track_avg = df.groupby('Track')['Average'].mean()
 ```
-4. Figures are created to plot the data, ```plt.figure(figsize=(5,3))```
-5. The data is then plotted using ```plt.bar()``` for visual comparison and the axis labeled
-6. Lastly, ```.describe()``` is used to generate a comparison of performance across Gender, Track, and Hometown.
+The figures for data plotting is created, and the data is plotted with labeled axis for visual comparison.
+```
+###Gender
+plt.figure(figsize=(5,3))
+gender_avg = df.groupby('Gender')['Average'].mean()
+plt.bar(gender_avg.index, gender_avg.values)
+plt.xlabel('Gender')
+plt.ylabel('Average Score');
+###Hometown
+plt.figure(figsize=(5,3))
+hometown_avg = df.groupby('Hometown')['Average'].mean()
+plt.bar(hometown_avg.index, hometown_avg.values)
+plt.xlabel('Hometown')
+plt.ylabel('Average Score');
+###Track
+plt.figure(figsize=(5,3))
+track_avg = df.groupby('Track')['Average'].mean()
+plt.bar(track_avg.index, track_avg.values)
+plt.xlabel('Track')
+plt.ylabel('Average Score');
+```
+The performance across gender, track, and hometown, is compared by using the syntax: `.describe()` which displays the count, mean, standard deviation, maxima and minima.
+```
+df[df['Gender'] == 'Male']['Average'].describe()
+df[df['Gender'] == 'Female']['Average'].describe()
 
+df[df['Track'] == 'Instumentation']['Average'].describe()
+df[df['Track'] == 'Microelectronics']['Average'].describe()
+df[df['Track'] == 'Communication']['Average'].describe()
+
+df[df['Hometown'] == 'Luzon']['Average'].describe()
+df[df['Hometown'] == 'Visayas']['Average'].describe()
+df[df['Hometown'] == 'Mindanao']['Average'].describe()
+```
